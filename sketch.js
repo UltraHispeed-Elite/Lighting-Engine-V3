@@ -10,7 +10,8 @@ var light_source = [
 
 var light_sprites;
 
-var xc, yc;
+var xc = [];
+var yc = [];
 var c;
 var d = [];
 var e = [];
@@ -62,26 +63,27 @@ function draw(){
 //   }
 
     for(let i=0; i<light_source.length; i++) {
-        if(player.x >= light_source[i][0] && player.x <= light_source[i][2]){
-            if(player.y >= light_source[i][1] && player.y <= light_source[i][3]){
-                createLight(light_source[i][0],light_source[i][1],light_source[i][2],light_source[i][3]);
-                spriteLight();
+        for(let j=0; j<allSprites.length; j++) {
+            if(allSprites[j].x >= light_source[i][0] && allSprites[j].x <= light_source[i][2]){
+                if(allSprites[j].y >= light_source[i][1] && allSprites[j].y <= light_source[i][3]){
+                    createLight(light_source[i][0],light_source[i][1],light_source[i][2],light_source[i][3],i);
+                    spriteLight(j, i);
+                }
             }
         }
     }
 
-    console.log(light_source);
-
   playerMovement();
 }
 
-function createLight(x1, y1, x2, y2){
-  xc = (x1+x2)/2;
-  yc = (y1+y2)/2;
-  console.log(xc, yc);
+function createLight(x1, y1, x2, y2, id){
+  xc.length = light_source.length;
+  yc.length = light_source.length;
+  xc[id] = (x1+x2)/2;
+  yc[id] = (y1+y2)/2;
 }
 
-function spriteLight(){
+function spriteLight(a,b){
   d.length = allSprites.length;
   e.length = allSprites.length;
   g.length = allSprites.length;
@@ -100,28 +102,28 @@ function spriteLight(){
     vy[i]=0;
     v[i]=0;
     cv[i]=0;
-    data(i);
+    data(a,b);
   }
 }
 
-function data(a) {
-  if(allSprites[a].x < xc) {
-    d[a] = xc - allSprites[a].x;
-    e[a] = (d[a]/xc)*100;
-  }else if(allSprites[a].x > xc) {
-    d[a] = allSprites[a].x - xc;
-    e[a] = (d[a]/xc)*100;
+function data(a,b) {
+  if(allSprites[a].x < xc[b]) {
+    d[a] = xc[b] - allSprites[a].x;
+    e[a] = (d[a]/xc[b])*100;
+  }else if(allSprites[a].x > xc[b]) {
+    d[a] = allSprites[a].x - xc[b];
+    e[a] = (d[a]/xc[b])*100;
   }else {
     d[a]=0;
     e[a]=0;
   }
     
-  if(allSprites[a].y < yc) {
-    g[a] = yc - allSprites[a].y;
-    h[a] = (g[a]/yc)*100;
-  }else if(allSprites[a].y > yc) {
-    g[a] = allSprites[a].y - yc;
-    h[a] = (g[a]/yc)*100;
+  if(allSprites[a].y < yc[b]) {
+    g[a] = yc[b] - allSprites[a].y;
+    h[a] = (g[a]/yc[b])*100;
+  }else if(allSprites[a].y > yc[b]) {
+    g[a] = allSprites[a].y - yc[b];
+    h[a] = (g[a]/yc[b])*100;
   }else {
     g[a]=0
     h[a]=0;
