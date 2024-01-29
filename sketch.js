@@ -22,7 +22,7 @@ function setup() {
 
   img_v = new Sprite(400,400,800,800);
   img_v.collider = 'n'
-  img_v.img = 'hello1.png';
+  img_v.img = 'hello2.png';
 }
 
 function draw() {
